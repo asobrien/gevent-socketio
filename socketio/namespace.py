@@ -30,7 +30,7 @@ class BaseNamespace(object):
     Handlers are automatically dispatched based on the name of the incoming
     event. For example, a 'user message' event will be handled by
     ``on_user_message()``. To change this, override :meth:`process_event`.
-    
+
     We can also access the full packet directly by making an event handler
     that accepts a single argument named 'packet':
 
@@ -453,7 +453,9 @@ class BaseNamespace(object):
         if callback:
             # By passing 'data', we indicate that we *want* an explicit ack
             # by the client code, not an automatic as with send().
-            pkt['ack'] = 'data'
+            pkt['ack'] = True  # like send (a simple case)
+            if data:
+                pkt['ack'] = 'data'  # FIXME: Should be payload
             pkt['id'] = msgid = self.socket._get_next_msgid()
             self.socket._save_ack_callback(msgid, callback)
 
