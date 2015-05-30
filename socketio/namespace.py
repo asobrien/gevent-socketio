@@ -454,8 +454,10 @@ class BaseNamespace(object):
             # By passing 'data', we indicate that we *want* an explicit ack
             # by the client code, not an automatic as with send().
             pkt['ack'] = True  # like send (a simple case)
-            if data:
-                pkt['ack'] = 'data'  # FIXME: Should be payload
+
+            # Disable for now, explicitly look for in args
+            # if data:
+            #     pkt['ack'] = 'data'  # FIXME: Should be payload
             pkt['id'] = msgid = self.socket._get_next_msgid()
             self.socket._save_ack_callback(msgid, callback)
 
